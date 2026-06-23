@@ -26,7 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /** F6 - Integración con Postgres y RabbitMQ reales vía Testcontainers. */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true) // sin Docker disponible la prueba se omite, no falla
+@SuppressWarnings("resource") // los contenedores los cierra la extensión @Testcontainers
 class MovimientoIntegrationTest {
 
     @Container
