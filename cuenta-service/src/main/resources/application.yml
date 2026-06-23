@@ -1,0 +1,81 @@
+server:
+  port: 8082
+  shutdown: graceful
+
+spring:
+  application:
+    name: cuenta-service
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/cuenta_db}
+    username: ${DB_USER:devsu}
+    password: ${DB_PASSWORD:devsu}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 10000
+      max-lifetime: 1800000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc.batch_size: 25
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        # Resiliencia del consumidor: reintenta con backoff; al agotarse, el
+        # mensaje se rechaza y va a la DLQ (no se reencola infinitamente).
+        acknowledge-mode: auto
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 1000
+          multiplier: 2.0
+          max-interval: 10000
+
+app:
+  security:
+    api-key: ${API_KEY:devsu-secret-key}   # exigida en operaciones de escritura
+
+resilience4j:
+  ratelimiter:
+    instances:
+      movimientos:
+        limit-for-period: 100         # 100 solicitudes...
+        limit-refresh-period: 1m      # ...por minuto
+        timeout-duration: 0           # no espera: rechaza de inmediato si se supera
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    # Swagger UI unificada: selector con ambos microservicios.
+    urls-primary-name: Cuenta Service
+    urls:
+      - name: Cuenta Service
+        url: http://localhost:8082/v3/api-docs
+      - name: Cliente Service
+        url: http://localhost:8081/v3/api-docs

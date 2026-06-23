@@ -1,0 +1,9 @@
+.git
+.github
+.gradle
+**/build
+*.md
+postman
+docker
+.idea
+*.iml

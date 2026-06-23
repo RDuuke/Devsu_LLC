@@ -1,0 +1,29 @@
+package com.devsu.cuenta.infrastructure.messaging.idempotency;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.Instant;
+
+/** Eventos ya procesados, para idempotencia del consumidor. */
+@Entity
+@Table(name = "processed_event")
+@Getter
+@Setter
+@NoArgsConstructor
+public class ProcessedEvent {
+
+    @Id
+    @Column(name = "event_id")
+    private String eventId;
+
+    @Column(name = "processed_at", nullable = false)
+    private Instant processedAt;
+
+    public ProcessedEvent(String eventId, Instant processedAt) {
+        this.eventId = eventId;
+        this.processedAt = processedAt;
+    }
+}

@@ -1,0 +1,173 @@
+{
+  "info": {
+    "name": "Devsu Bank - Microservicios",
+    "description": "Colección de endpoints para cliente-service (8081) y cuenta-service (8082).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "X-API-Key" },
+      { "key": "value", "value": "{{apiKey}}" },
+      { "key": "in", "value": "header" }
+    ]
+  },
+  "variable": [
+    { "key": "clienteUrl", "value": "http://localhost:8081" },
+    { "key": "cuentaUrl", "value": "http://localhost:8082" },
+    { "key": "apiKey", "value": "devsu-secret-key" },
+    { "key": "clienteId", "value": "1" },
+    { "key": "cuentaId", "value": "1" },
+    { "key": "movimientoId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "url": "{{clienteUrl}}/clientes?page=0&size=20"
+          }
+        },
+        {
+          "name": "Obtener cliente",
+          "request": {
+            "method": "GET",
+            "url": "{{clienteUrl}}/clientes/{{clienteId}}"
+          }
+        },
+        {
+          "name": "Crear cliente",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{clienteUrl}}/clientes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Marianela Montalvo\",\n  \"genero\": \"FEMENINO\",\n  \"edad\": 30,\n  \"identificacion\": \"0102030405\",\n  \"direccion\": \"Quito\",\n  \"telefono\": \"0991234567\",\n  \"clienteId\": \"marianela\",\n  \"contrasena\": \"clave1234\",\n  \"estado\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{clienteUrl}}/clientes/{{clienteId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"direccion\": \"Guayaquil\",\n  \"estado\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Eliminar cliente",
+          "request": {
+            "method": "DELETE",
+            "url": "{{clienteUrl}}/clientes/{{clienteId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cuentas",
+      "item": [
+        {
+          "name": "Listar cuentas",
+          "request": { "method": "GET", "url": "{{cuentaUrl}}/cuentas?page=0&size=20" }
+        },
+        {
+          "name": "Obtener cuenta",
+          "request": { "method": "GET", "url": "{{cuentaUrl}}/cuentas/{{cuentaId}}" }
+        },
+        {
+          "name": "Crear cuenta",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{cuentaUrl}}/cuentas",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroCuenta\": \"225487\",\n  \"tipoCuenta\": \"CORRIENTE\",\n  \"saldoInicial\": 100,\n  \"estado\": true,\n  \"clienteId\": {{clienteId}}\n}"
+            }
+          }
+        },
+        {
+          "name": "Actualizar cuenta",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{cuentaUrl}}/cuentas/{{cuentaId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": true\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Movimientos",
+      "item": [
+        {
+          "name": "Listar movimientos",
+          "request": { "method": "GET", "url": "{{cuentaUrl}}/movimientos?page=0&size=20" }
+        },
+        {
+          "name": "Obtener movimiento",
+          "request": { "method": "GET", "url": "{{cuentaUrl}}/movimientos/{{movimientoId}}" }
+        },
+        {
+          "name": "Registrar depósito",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{cuentaUrl}}/movimientos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cuentaId\": {{cuentaId}},\n  \"tipoMovimiento\": \"DEPOSITO\",\n  \"valor\": 600\n}"
+            }
+          }
+        },
+        {
+          "name": "Registrar retiro",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{cuentaUrl}}/movimientos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cuentaId\": {{cuentaId}},\n  \"tipoMovimiento\": \"RETIRO\",\n  \"valor\": 200\n}"
+            }
+          }
+        },
+        {
+          "name": "Retiro sin saldo (422)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{cuentaUrl}}/movimientos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cuentaId\": {{cuentaId}},\n  \"tipoMovimiento\": \"RETIRO\",\n  \"valor\": 999999\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reportes",
+      "item": [
+        {
+          "name": "Estado de cuenta (F4)",
+          "request": {
+            "method": "GET",
+            "url": "{{cuentaUrl}}/reportes?cliente={{clienteId}}&fechaInicio=2000-01-01&fechaFin=2999-12-31"
+          }
+        }
+      ]
+    }
+  ]
+}

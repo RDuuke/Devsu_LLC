@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devsu Bank — Monitor</title>
+  <link rel="stylesheet" href="pico.min.css" />
+  <script defer src="app.js"></script>
+  <script defer src="alpine.min.js"></script>
+  <style>
+    :root {
+      --pico-primary-background: #ffa600;
+      --pico-primary-hover-background: #bc4c96;
+      --pico-primary-inverse: #23160a;
+      --pico-primary: #ffb84d;
+      --pico-primary-hover: #ffc97a;
+      --pico-primary-focus: rgba(255, 166, 0, .3);
+      --pico-background-color: #012738;
+      --pico-card-background-color: #063a52;
+      --pico-card-border-color: #15536c;
+      --pico-card-sectioning-background-color: #063a52;
+      --pico-form-element-background-color: #0a475f;
+      --pico-form-element-border-color: #15536c;
+      --pico-color: #e8f1f6;
+      --pico-muted-color: #8fb1c1;
+      --pico-font-size: 85%;
+      --pico-spacing: .6rem;
+    }
+    [x-cloak] { display: none !important; }
+    main.container { padding-block: 1rem; max-width: 920px; }
+    #grid { display: flex; flex-direction: column; gap: .85rem; }
+    article { padding: .65rem .8rem; margin: 0; }
+    article > header { margin: -.65rem -.8rem .5rem; padding: .4rem .8rem; font-size: .9rem; }
+    .scroll { max-height: 190px; overflow: auto; }
+    table { font-size: .68rem; margin: 0; }
+    th, td { padding: .2rem .4rem; white-space: nowrap; }
+    th { font-size: .62rem; letter-spacing: .3px; text-transform: uppercase; }
+    .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: .4rem; margin-bottom: .45rem; }
+    .fields label { font-size: .64rem; margin: 0; }
+    .fields input, .fields select { font-size: .76rem; padding: .3rem .4rem; margin: 0; }
+    button { font-size: .76rem; padding: .4rem .75rem; margin: 0; }
+    .dot { display: inline-block; width: .6rem; height: .6rem; border-radius: 50%; background: var(--pico-muted-color); }
+    .dot.ok { background: #2fbf8f; } .dot.bad { background: #ff5f66; }
+    .del { color: #ff5f66; text-decoration: none; font-weight: 700; }
+    nav input { width: 11rem; margin: 0; }
+    nav small { white-space: nowrap; }
+    #log { font-family: var(--pico-font-family-monospace); font-size: .74rem; max-height: 180px; overflow: auto; background: #04222f; }
+    .log-ok { color: #2fbf8f; } .log-bad { color: #ff5f66; } .log-warn { color: #ffa600; } .log-info { color: #d98cc4; }
+    .muted { color: var(--pico-muted-color); font-size: .8rem; }
+  </style>
+</head>
+<body x-data="dashboard" x-cloak>
+  <header class="container">
+    <nav>
+      <ul><li><strong>🏦 Devsu Bank · Monitor</strong></li></ul>
+      <ul>
+        <li><small><span class="dot" :class="{ ok: health.cliente === 'UP', bad: health.cliente && health.cliente !== 'UP' }"></span> cliente</small></li>
+        <li><small><span class="dot" :class="{ ok: health.cuenta === 'UP', bad: health.cuenta && health.cuenta !== 'UP' }"></span> cuenta</small></li>
+        <li><input type="text" x-model="apiKey" aria-label="API key" /></li>
+        <li><label><input type="checkbox" x-model="auto" /> auto</label></li>
+        <li><button class="outline secondary" @click="refreshAll()">Refrescar</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="grid">
+
+      <!-- Clientes -->
+      <article class="span2">
+        <header><strong>Clientes</strong> <span class="muted" x-text="clientes.length"></span></header>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>id</th><th>nombre</th><th>género</th><th>edad</th><th>identificación</th><th>clienteId</th><th>estado</th><th></th></tr></thead>
+            <tbody>
+              <template x-for="c in clientes" :key="c.id">
+                <tr>
+                  <td x-text="c.id"></td><td x-text="c.nombre"></td><td x-text="c.genero"></td><td x-text="c.edad"></td>
+                  <td x-text="c.identificacion"></td><td x-text="c.clienteId"></td><td x-text="c.estado"></td>
+                  <td><a href="#" class="del" @click.prevent="eliminarCliente(c.id)">✕</a></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <form @submit.prevent="crearCliente()">
+          <div class="fields">
+            <label>nombre<input x-model="fCliente.nombre" required /></label>
+            <label>género<select x-model="fCliente.genero"><option>MASCULINO</option><option>FEMENINO</option><option>OTRO</option></select></label>
+            <label>edad<input type="number" x-model="fCliente.edad" required /></label>
+            <label>identificación<input x-model="fCliente.identificacion" required /></label>
+            <label>clienteId<input x-model="fCliente.clienteId" required /></label>
+            <label>contraseña<input x-model="fCliente.contrasena" required /></label>
+          </div>
+          <button type="submit">Crear cliente</button>
+        </form>
+      </article>
+
+      <!-- Cuentas -->
+      <article>
+        <header><strong>Cuentas</strong> <span class="muted" x-text="cuentas.length"></span></header>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>id</th><th>número</th><th>tipo</th><th>saldoIni</th><th>saldoAct</th><th>estado</th><th>cliente</th></tr></thead>
+            <tbody>
+              <template x-for="a in cuentas" :key="a.id">
+                <tr>
+                  <td x-text="a.id"></td><td x-text="a.numeroCuenta"></td><td x-text="a.tipoCuenta"></td>
+                  <td x-text="a.saldoInicial"></td><td x-text="a.saldoActual"></td><td x-text="a.estado"></td><td x-text="a.clienteId"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <form @submit.prevent="crearCuenta()">
+          <div class="fields">
+            <label>número<input x-model="fCuenta.numeroCuenta" required /></label>
+            <label>tipo<select x-model="fCuenta.tipoCuenta"><option>AHORRO</option><option>CORRIENTE</option></select></label>
+            <label>saldoInicial<input type="number" x-model="fCuenta.saldoInicial" required /></label>
+            <label>clienteId<input type="number" x-model="fCuenta.clienteId" required /></label>
+          </div>
+          <button type="submit">Crear cuenta</button>
+        </form>
+      </article>
+
+      <!-- Movimientos -->
+      <article>
+        <header><strong>Movimientos</strong> <span class="muted" x-text="movimientos.length"></span></header>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>id</th><th>fecha</th><th>tipo</th><th>valor</th><th>saldo</th><th>cuenta</th></tr></thead>
+            <tbody>
+              <template x-for="m in movimientos" :key="m.id">
+                <tr>
+                  <td x-text="m.id"></td><td x-text="m.fecha"></td><td x-text="m.tipoMovimiento"></td>
+                  <td x-text="m.valor"></td><td x-text="m.saldo"></td><td x-text="m.cuentaId"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+        <form @submit.prevent="registrarMovimiento()">
+          <div class="fields">
+            <label>cuentaId<input type="number" x-model="fMov.cuentaId" required /></label>
+            <label>tipo<select x-model="fMov.tipoMovimiento"><option>DEPOSITO</option><option>RETIRO</option></select></label>
+            <label>valor<input type="number" x-model="fMov.valor" required /></label>
+            <label>Idempotency-Key<input x-model="fMov.idem" placeholder="opcional" /></label>
+          </div>
+          <button type="submit">Registrar movimiento</button>
+        </form>
+      </article>
+
+      <!-- Reporte -->
+      <article class="span2">
+        <header><strong>Estado de cuenta</strong> <span class="muted">reporte F4</span></header>
+        <form @submit.prevent="generarReporte()">
+          <div class="fields">
+            <label>cliente (id)<input type="number" x-model="fReporte.cliente" required /></label>
+            <label>fechaInicio<input type="date" x-model="fReporte.fechaInicio" required /></label>
+            <label>fechaFin<input type="date" x-model="fReporte.fechaFin" required /></label>
+            <label>&nbsp;<button type="submit">Generar</button></label>
+          </div>
+        </form>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>fecha</th><th>cliente</th><th>cuenta</th><th>tipo</th><th>saldoIni</th><th>estado</th><th>mov</th><th>saldoDisp</th></tr></thead>
+            <tbody>
+              <template x-for="(r, i) in reporte" :key="i">
+                <tr>
+                  <td x-text="r.fecha"></td><td x-text="r.cliente"></td><td x-text="r.numeroCuenta"></td><td x-text="r.tipo"></td>
+                  <td x-text="r.saldoInicial"></td><td x-text="r.estado"></td><td x-text="r.movimiento"></td><td x-text="r.saldoDisponible"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+    </div>
+
+    <article id="log">
+      <template x-if="logs.length === 0"><span class="muted">registro de actividad…</span></template>
+      <template x-for="(l, i) in logs" :key="i">
+        <div :class="'log-' + l.level" x-text="'[' + l.time + '] ' + l.msg"></div>
+      </template>
+    </article>
+  </main>
+</body>
+</html>
