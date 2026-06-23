@@ -5,8 +5,6 @@ bancarios**, con comunicación **asíncrona** entre servicios, **Clean Architect
 manejo de excepciones y un foco explícito en **rendimiento, escalabilidad y
 resiliencia**.
 
-> Decisiones técnicas detalladas y su justificación: ver [`DECISIONS.md`](./DECISIONS.md).
-
 ---
 
 ## Arquitectura
@@ -324,7 +322,6 @@ curl "http://localhost:8082/reportes?cliente=1&fechaInicio=2000-01-01&fechaFin=2
 - `docker-compose.yml` + Dockerfiles multi-stage.
 - `BaseDatos.sql` (esquema consolidado; en runtime lo gestiona Flyway).
 - Colección Postman (`postman/`).
-- `DECISIONS.md` (decisiones técnicas y justificación).
 - CI en `.github/workflows/ci.yml`.
 
 ---
