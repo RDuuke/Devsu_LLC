@@ -8,7 +8,6 @@ import com.devsu.cliente.presentation.dto.ClienteResponse;
 import com.devsu.cliente.presentation.dto.ClienteUpdateRequest;
 import org.mapstruct.Mapper;
 
-/** Mapea entre DTOs de la API y comandos/dominio. */
 @Mapper(componentModel = "spring")
 public interface ClienteApiMapper {
 

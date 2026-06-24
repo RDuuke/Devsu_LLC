@@ -11,7 +11,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/** La lógica de saldo vive aquí, no en el servicio. */
 @Getter
 @Setter
 @Builder
@@ -27,10 +26,8 @@ public class Cuenta {
     private boolean estado;
     private Long clienteId;
 
-    /** Versión para bloqueo optimista (evita lost updates). */
     private Long version;
 
-    /** Aplica el movimiento: cuenta activa, valor positivo, y un retiro no puede dejar el saldo negativo. */
     public Movimiento registrarMovimiento(TipoMovimiento tipo, BigDecimal valorAbsoluto, LocalDateTime fecha) {
         if (!estado) {
             throw new CuentaInactivaException(numeroCuenta);

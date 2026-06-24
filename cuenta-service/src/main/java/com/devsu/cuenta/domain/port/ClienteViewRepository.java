@@ -4,7 +4,6 @@ import com.devsu.cuenta.domain.model.ClienteView;
 
 import java.util.Optional;
 
-/** Proyección local de clientes, poblada por eventos. */
 public interface ClienteViewRepository {
 
     ClienteView save(ClienteView clienteView);

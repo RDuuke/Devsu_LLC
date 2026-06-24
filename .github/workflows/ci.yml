@@ -20,7 +20,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # El runner de GitHub Actions ya tiene Docker → Testcontainers funciona.
       - name: Build + test (unit + integración Testcontainers)
         run: ./gradlew build --no-daemon
 

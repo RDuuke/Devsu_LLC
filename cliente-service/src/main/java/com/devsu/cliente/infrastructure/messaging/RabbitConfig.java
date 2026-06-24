@@ -4,7 +4,6 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Declara el topic exchange donde el relay publica los eventos de cliente. */
 @Configuration
 public class RabbitConfig {
 

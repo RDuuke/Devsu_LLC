@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
-/** {@code @Version} habilita bloqueo optimista. */
 @Entity
 @Table(name = "cuenta")
 @Getter

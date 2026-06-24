@@ -3,7 +3,6 @@ package com.devsu.cliente.presentation.error;
 import java.time.Instant;
 import java.util.Map;
 
-/** Cuerpo de error uniforme para toda la API. */
 public record ApiError(
         Instant timestamp,
         int status,

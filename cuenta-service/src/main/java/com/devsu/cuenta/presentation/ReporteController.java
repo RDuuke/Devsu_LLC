@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
-/** API REST del reporte de estado de cuenta (F4). */
 @RestController
 @RequiredArgsConstructor
 public class ReporteController {

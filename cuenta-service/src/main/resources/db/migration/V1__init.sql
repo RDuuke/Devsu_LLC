@@ -1,5 +1,3 @@
--- Esquema inicial de cuenta-service (gestionado por Flyway).
-
 CREATE TABLE cliente_view (
     cliente_id BIGINT PRIMARY KEY,
     nombre     VARCHAR(150) NOT NULL,
@@ -26,12 +24,10 @@ CREATE TABLE movimiento (
     cuenta_id       BIGINT NOT NULL REFERENCES cuenta(id) ON DELETE CASCADE
 );
 
--- Idempotencia del consumidor de eventos.
 CREATE TABLE processed_event (
     event_id     VARCHAR(64) PRIMARY KEY,
     processed_at TIMESTAMPTZ NOT NULL
 );
 
--- Índices para el reporte F4 (filtro por cliente y rango de fechas).
 CREATE INDEX idx_cuenta_cliente ON cuenta (cliente_id);
 CREATE INDEX idx_movimiento_cuenta_fecha ON movimiento (cuenta_id, fecha);

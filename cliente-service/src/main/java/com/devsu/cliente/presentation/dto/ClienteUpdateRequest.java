@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
-/** DTO de actualización parcial. Todos los campos son opcionales (null = no cambiar). */
 public record ClienteUpdateRequest(
         String nombre,
         Genero genero,

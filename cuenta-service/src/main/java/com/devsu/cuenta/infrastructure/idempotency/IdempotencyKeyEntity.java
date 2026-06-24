@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-/** Mapea clave de idempotencia al movimiento creado. */
 @Entity
 @Table(name = "idempotency_key")
 @Getter

@@ -16,11 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Publica periódicamente los eventos pendientes del Outbox a RabbitMQ. Si el broker
- * está caído quedan en la tabla y se reintentan en el siguiente ciclo. Cada mensaje
- * lleva {@code messageId = eventId} para que el consumidor deduplique.
- */
 @Component
 @RequiredArgsConstructor
 public class OutboxRelay {
@@ -56,7 +51,6 @@ public class OutboxRelay {
 
                 event.markPublished(Instant.now());
             } catch (Exception ex) {
-                // Broker caído: lo dejamos pendiente y se reintenta luego.
                 log.warn("No se pudo publicar el evento {}: {}. Se reintentará.",
                         event.getEventId(), ex.getMessage());
             }

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-/** Read-model de cliente alimentado por eventos. */
 @Entity
 @Table(name = "cliente_view")
 @Getter

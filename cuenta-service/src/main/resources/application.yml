@@ -35,8 +35,6 @@ spring:
     password: ${RABBITMQ_PASSWORD:guest}
     listener:
       simple:
-        # Resiliencia del consumidor: reintenta con backoff; al agotarse, el
-        # mensaje se rechaza y va a la DLQ (no se reencola infinitamente).
         acknowledge-mode: auto
         default-requeue-rejected: false
         retry:
@@ -48,15 +46,15 @@ spring:
 
 app:
   security:
-    api-key: ${API_KEY:devsu-secret-key}   # exigida en operaciones de escritura
+    api-key: ${API_KEY:devsu-secret-key}
 
 resilience4j:
   ratelimiter:
     instances:
       movimientos:
-        limit-for-period: 100         # 100 solicitudes...
-        limit-refresh-period: 1m      # ...por minuto
-        timeout-duration: 0           # no espera: rechaza de inmediato si se supera
+        limit-for-period: 100
+        limit-refresh-period: 1m
+        timeout-duration: 0
 
 management:
   endpoints:
@@ -72,7 +70,6 @@ management:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-    # Swagger UI unificada: selector con ambos microservicios.
     urls-primary-name: Cuenta Service
     urls:
       - name: Cuenta Service

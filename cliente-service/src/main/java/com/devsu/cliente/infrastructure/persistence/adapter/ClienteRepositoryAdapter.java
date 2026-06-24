@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-/** Implementa {@link ClienteRepository} sobre Spring Data JPA, mapeando con MapStruct. */
 @Component
 @RequiredArgsConstructor
 public class ClienteRepositoryAdapter implements ClienteRepository {

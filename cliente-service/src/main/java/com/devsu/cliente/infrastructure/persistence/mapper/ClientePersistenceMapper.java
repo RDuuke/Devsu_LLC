@@ -4,7 +4,6 @@ import com.devsu.cliente.domain.model.Cliente;
 import com.devsu.cliente.infrastructure.persistence.entity.ClienteEntity;
 import org.mapstruct.Mapper;
 
-/** Mapea entre dominio y entidad JPA. */
 @Mapper(componentModel = "spring")
 public interface ClientePersistenceMapper {
 

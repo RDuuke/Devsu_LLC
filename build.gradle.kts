@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// Root build — configuración común a todos los módulos (principio DRY).
-// Cada microservicio hereda Java 21, repositorios y convenciones de test.
-// ---------------------------------------------------------------------------
 plugins {
     java
     id("org.springframework.boot") version "3.3.5" apply false
@@ -21,7 +17,6 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "io.spring.dependency-management")
 
-    // Java 21 (toolchain) → build reproducible independiente del JDK local instalado.
     java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(21))
@@ -43,6 +38,6 @@ subprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.compilerArgs.add("-parameters") // nombres de parámetros para Spring/Jackson
+        options.compilerArgs.add("-parameters")
     }
 }

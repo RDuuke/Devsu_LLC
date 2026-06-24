@@ -10,10 +10,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-/**
- * Exige el header {@code X-API-Key} en escrituras (POST/PUT/DELETE). GET, Swagger,
- * OpenAPI y Actuator quedan libres.
- */
 public class ApiKeyFilter extends OncePerRequestFilter {
 
     public static final String HEADER = "X-API-Key";

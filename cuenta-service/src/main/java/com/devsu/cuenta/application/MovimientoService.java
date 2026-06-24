@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/** El registro toma bloqueo pesimista y actualiza saldo + histórico en una sola transacción. */
 @Service
 @RequiredArgsConstructor
 public class MovimientoService {
@@ -33,7 +32,6 @@ public class MovimientoService {
         return registrar(cmd, null);
     }
 
-    /** Si la clave de idempotencia ya fue usada, devuelve el movimiento previo sin reaplicarlo. */
     @Transactional
     public Movimiento registrar(RegistrarMovimientoCommand cmd, @Nullable String idempotencyKey) {
         boolean useKey = idempotencyKey != null && !idempotencyKey.isBlank();

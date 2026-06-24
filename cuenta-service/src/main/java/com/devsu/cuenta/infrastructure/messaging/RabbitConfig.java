@@ -4,7 +4,6 @@ import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Topología RabbitMQ: exchange de cliente, cola principal y DLQ para fallos. */
 @Configuration
 public class RabbitConfig {
 

@@ -16,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-/** API REST de movimientos (F2/F3). */
 @RestController
 @RequestMapping("/movimientos")
 @RequiredArgsConstructor

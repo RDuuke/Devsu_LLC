@@ -4,7 +4,6 @@ import com.devsu.cliente.domain.port.PasswordHasher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/** {@link PasswordHasher} con BCrypt. */
 @Component
 public class BCryptPasswordHasher implements PasswordHasher {
 

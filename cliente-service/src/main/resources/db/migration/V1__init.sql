@@ -1,5 +1,3 @@
--- Esquema inicial de cliente-service (gestionado por Flyway).
-
 CREATE TABLE persona (
     id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre         VARCHAR(150) NOT NULL,
@@ -17,7 +15,6 @@ CREATE TABLE cliente (
     estado     BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- Transactional Outbox: eventos pendientes de publicar a RabbitMQ.
 CREATE TABLE outbox_event (
     event_id       VARCHAR(64) PRIMARY KEY,
     aggregate_type VARCHAR(50) NOT NULL,
@@ -28,5 +25,4 @@ CREATE TABLE outbox_event (
     published_at   TIMESTAMPTZ
 );
 
--- Índice para que el relay encuentre rápido los eventos no publicados.
 CREATE INDEX idx_outbox_unpublished ON outbox_event (created_at) WHERE published_at IS NULL;

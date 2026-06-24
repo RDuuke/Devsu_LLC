@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Metadatos de OpenAPI / Swagger UI. */
 @Configuration
 public class OpenApiConfig {
 

@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** F6 - Integración con Postgres y RabbitMQ reales vía Testcontainers. */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers(disabledWithoutDocker = true) // sin Docker disponible la prueba se omite, no falla
 @SuppressWarnings("resource") // los contenedores los cierra la extensión @Testcontainers
@@ -53,7 +52,6 @@ class MovimientoIntegrationTest {
 
     @BeforeEach
     void addApiKeyHeader() {
-        // Todas las escrituras requieren la API key (valor por defecto en test).
         rest.getRestTemplate().getInterceptors().add((request, body, execution) -> {
             request.getHeaders().add("X-API-Key", "devsu-secret-key");
             return execution.execute(request, body);

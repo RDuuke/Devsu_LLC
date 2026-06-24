@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/** Reporte de estado de cuenta (F4). Usa el índice (cuenta_id, fecha) para el rango. */
 public interface ReporteJpaRepository extends JpaRepository<MovimientoEntity, Long> {
 
     @Query(value = """

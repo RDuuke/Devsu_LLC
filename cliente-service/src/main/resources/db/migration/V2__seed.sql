@@ -1,6 +1,3 @@
--- Datos de ejemplo (seed) para que los endpoints funcionen al instante.
--- La contraseña es un hash BCrypt válido (placeholder; no hay login en el alcance).
-
 INSERT INTO persona (id, nombre, genero, edad, identificacion, direccion, telefono)
 OVERRIDING SYSTEM VALUE
 VALUES (1, 'Marianela Montalvo', 'FEMENINO', 30, '0102030405', 'Quito', '0991234567');

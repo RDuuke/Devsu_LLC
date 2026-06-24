@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-/** Entidad JPA. Herencia JOINED: la tabla {@code cliente} comparte PK con {@code persona}. */
 @Entity
 @Table(name = "cliente")
 @Getter

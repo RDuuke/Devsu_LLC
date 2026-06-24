@@ -3,7 +3,6 @@ package com.devsu.cliente.presentation.dto;
 import com.devsu.cliente.domain.model.Genero;
 import jakarta.validation.constraints.*;
 
-/** DTO de entrada para crear un cliente. */
 public record ClienteRequest(
         @NotBlank String nombre,
         @NotNull Genero genero,

@@ -3,7 +3,6 @@ package com.devsu.cuenta.presentation.error;
 import java.time.Instant;
 import java.util.Map;
 
-/** Cuerpo de error uniforme. */
 public record ApiError(
         Instant timestamp,
         int status,

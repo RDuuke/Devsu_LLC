@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-/** Entidad JPA base. Herencia JOINED: tablas {@code persona} y {@code cliente} unidas por PK. */
 @Entity
 @Table(name = "persona")
 @Inheritance(strategy = InheritanceType.JOINED)

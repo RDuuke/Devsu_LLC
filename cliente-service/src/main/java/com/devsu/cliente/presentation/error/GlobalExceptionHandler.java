@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Traduce excepciones de dominio y validación a respuestas HTTP consistentes. */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

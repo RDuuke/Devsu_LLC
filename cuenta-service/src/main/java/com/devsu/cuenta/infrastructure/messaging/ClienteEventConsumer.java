@@ -15,10 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.Instant;
 
-/**
- * Consumidor idempotente: deduplica por messageId (= eventId) contra
- * {@code processed_event}, en una transacción. Tras fallos repetidos va a la DLQ.
- */
 @Component
 @RequiredArgsConstructor
 public class ClienteEventConsumer {

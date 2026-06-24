@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling // necesario para el relay del Outbox
+@EnableScheduling
 public class ClienteServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClienteServiceApplication.class, args);

@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
-/**
- * En vez de publicar directo a RabbitMQ (que no es transaccional), inserta el evento
- * en {@code outbox_event} dentro de la transacción de negocio.
- */
 @Component
 @RequiredArgsConstructor
 public class OutboxEventPublisher implements EventPublisher {

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Mantiene la proyección local de clientes desde los eventos recibidos. */
 @Service
 @RequiredArgsConstructor
 public class ClienteProjectionService {

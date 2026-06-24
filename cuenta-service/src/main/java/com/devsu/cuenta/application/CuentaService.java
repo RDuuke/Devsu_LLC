@@ -26,7 +26,6 @@ public class CuentaService {
         if (cuentaRepository.existsByNumeroCuenta(cmd.numeroCuenta())) {
             throw new DuplicateCuentaException(cmd.numeroCuenta());
         }
-        // El cliente debe existir en la proyección local antes de abrirle una cuenta.
         if (clienteViewRepository.findById(cmd.clienteId()).isEmpty()) {
             throw new ClienteInexistenteException(cmd.clienteId());
         }
@@ -34,7 +33,7 @@ public class CuentaService {
                 .numeroCuenta(cmd.numeroCuenta())
                 .tipoCuenta(cmd.tipoCuenta())
                 .saldoInicial(cmd.saldoInicial())
-                .saldoActual(cmd.saldoInicial())   // al crear, disponible = inicial
+                .saldoActual(cmd.saldoInicial())
                 .estado(cmd.estado() == null || cmd.estado())
                 .clienteId(cmd.clienteId())
                 .build();

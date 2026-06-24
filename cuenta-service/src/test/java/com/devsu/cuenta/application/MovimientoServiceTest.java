@@ -23,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-/** F5 - Prueba unitaria del caso de uso de movimientos con Mockito. */
 @ExtendWith(MockitoExtension.class)
 class MovimientoServiceTest {
 

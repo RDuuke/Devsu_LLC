@@ -18,7 +18,6 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Manejo de excepciones centralizado del servicio de cuentas. */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -28,7 +27,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.unprocessableEntity().body(new MessageResponse(ex.getMessage()));
     }
 
-    /** Rate limiting (Resilience4j): demasiadas solicitudes → HTTP 429. */
     @ExceptionHandler(RequestNotPermitted.class)
     public ResponseEntity<MessageResponse> handleRateLimit(RequestNotPermitted ex) {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)

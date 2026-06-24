@@ -1,6 +1,5 @@
--- Datos de ejemplo (seed). cliente_view se siembra directamente (en operación normal
--- llega por evento desde cliente-service) para consistencia inmediata del reporte F4.
-
+-- cliente_view se siembra directamente; en operación normal llega por evento
+-- desde cliente-service.
 INSERT INTO cliente_view (cliente_id, nombre, estado)
 VALUES (1, 'Marianela Montalvo', TRUE);
 

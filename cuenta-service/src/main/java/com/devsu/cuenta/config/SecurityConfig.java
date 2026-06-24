@@ -6,7 +6,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Registra el filtro de API Key para todas las rutas (el filtro decide qué exigir). */
 @Configuration
 public class SecurityConfig {
 

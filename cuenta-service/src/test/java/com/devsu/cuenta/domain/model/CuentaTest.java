@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** F5 - Lógica de saldo, dominio puro sin Spring ni BD. */
 class CuentaTest {
 
     private Cuenta cuentaActiva(BigDecimal saldo) {
@@ -62,7 +61,6 @@ class CuentaTest {
                 .isInstanceOf(SaldoInsuficienteException.class)
                 .hasMessage("Saldo no disponible");
 
-        // El saldo no debe cambiar tras un retiro rechazado.
         assertThat(cuenta.getSaldoActual()).isEqualByComparingTo("100.00");
     }
 

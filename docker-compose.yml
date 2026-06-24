@@ -21,8 +21,8 @@ services:
     image: rabbitmq:3.13-management-alpine
     container_name: devsu-rabbitmq
     ports:
-      - "5672:5672"     # AMQP
-      - "15672:15672"   # consola de gestión
+      - "5672:5672"
+      - "15672:15672"
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s

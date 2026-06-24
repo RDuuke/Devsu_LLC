@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-/** Eventos ya procesados, para idempotencia del consumidor. */
 @Entity
 @Table(name = "processed_event")
 @Getter

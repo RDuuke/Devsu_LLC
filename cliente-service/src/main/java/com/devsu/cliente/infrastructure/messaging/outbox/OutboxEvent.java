@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-/** Registro de Outbox: se inserta junto a la entidad y un relay lo publica luego a RabbitMQ. */
 @Entity
 @Table(name = "outbox_event")
 @Getter

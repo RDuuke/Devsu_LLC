@@ -17,10 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * CRUD de clientes. La entidad y su evento se persisten en la MISMA transacción
- * vía Outbox, así que o se guardan ambos o ninguno.
- */
 @Service
 @RequiredArgsConstructor
 public class ClienteService {
